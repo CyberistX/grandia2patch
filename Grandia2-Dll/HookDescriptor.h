@@ -44,7 +44,7 @@ public:
 	template <typename T> 
 	static HookDescriptor<T> CreateHook( void * oldFunction, void * newFunction )
 	{
-		#ifdef _DEBUG
+		//#ifdef _DEBUG
 		std::string debugString = "Called Function CreateHook:\n";
 		debugString += "\t void* oldFunction:\t";
 		debugString += std::to_string((unsigned int)oldFunction);
@@ -54,7 +54,7 @@ public:
 		debugString += "\n";
 
 		Logger::Instance() -> Log (debugString);
-		#endif
+	//	#endif
 
 		HookDescriptor<T> self = HookDescriptor<T>();
 
@@ -114,7 +114,7 @@ private:
 	static HRESULT CopyBytes (void * destination, void * source, int numberOfBytes)
 	{		
 
-#		ifdef _DEBUG
+#		//ifdef _DEBUG
 		std::string debugString = "Called Function CreateHook:\n";
 		debugString += "\t void* destination:\t";
 		debugString += std::to_string((unsigned int)destination);
@@ -126,7 +126,7 @@ private:
 		debugString += std::to_string(numberOfBytes) + "\n";
 
 		Logger::Instance()->Log(debugString);
-		#endif
+		//#endif
 
 		DWORD destinationMemoryProtection = 0;
 		DWORD sourceMemoryProtection = 0;
