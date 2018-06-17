@@ -71,6 +71,8 @@ public:
 		self.originalFunction = (T) oldFunction;
 		self.proxyFunction = (T) newFunction;
 
+
+
 		return self;
 
 	}
@@ -127,10 +129,10 @@ private:
 		OutputDebugStringA(debugString.c_str());
 		//#endif
 
-		DWORD destinationMemoryProtection;
-		DWORD sourceMemoryProtection;
+		DWORD destinationMemoryProtection = 0;
+		DWORD sourceMemoryProtection = 0;
 		int result = S_OK;
-		result &= VirtualProtect ( source, numberOfBytes, PAGE_EXECUTE_READ, NULL ); 
+		result &= VirtualProtect ( source, numberOfBytes, PAGE_EXECUTE_READ, &sourceMemoryProtection ); 
 		result &= VirtualProtect ( destination, numberOfBytes, PAGE_EXECUTE_READWRITE, &destinationMemoryProtection ); 
 		memcpy (destination, source, numberOfBytes);		
 		result &= VirtualProtect ( source, numberOfBytes, sourceMemoryProtection, NULL ); 
