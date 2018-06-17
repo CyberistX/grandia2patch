@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include <string>
 #include <exception>
+#include "Logger.h"
 
 /*
 	Generic templated class for a function hook descriptor
@@ -43,7 +44,7 @@ public:
 	template <typename T> 
 	static HookDescriptor<T> CreateHook( void * oldFunction, void * newFunction )
 	{
-		//#ifdef _DEBUG:
+		#ifdef _DEBUG
 		std::string debugString = "Called Function CreateHook:\n";
 		debugString += "\t void* oldFunction:\t";
 		debugString += std::to_string((unsigned int)oldFunction);
@@ -52,8 +53,8 @@ public:
 		debugString += std::to_string( (unsigned int) newFunction);
 		debugString += "\n";
 
-		OutputDebugStringA(debugString.c_str());
-		//#endif
+		Logger::Instance() -> Log (debugString);
+		#endif
 
 		HookDescriptor<T> self = HookDescriptor<T>();
 
@@ -70,9 +71,7 @@ public:
 
 		self.originalFunction = (T) oldFunction;
 		self.proxyFunction = (T) newFunction;
-
-
-
+		self.isSet = true;
 		return self;
 
 	}
@@ -115,7 +114,7 @@ private:
 	static HRESULT CopyBytes (void * destination, void * source, int numberOfBytes)
 	{		
 
-#		//ifdef _DEBUG:
+#		ifdef _DEBUG
 		std::string debugString = "Called Function CreateHook:\n";
 		debugString += "\t void* destination:\t";
 		debugString += std::to_string((unsigned int)destination);
@@ -126,20 +125,21 @@ private:
 		debugString += "\t void* numberOfBytes:\t";
 		debugString += std::to_string(numberOfBytes) + "\n";
 
-		OutputDebugStringA(debugString.c_str());
-		//#endif
+		Logger::Instance()->Log(debugString);
+		#endif
 
 		DWORD destinationMemoryProtection = 0;
 		DWORD sourceMemoryProtection = 0;
 		int result = S_OK;
-		result &= VirtualProtect ( source, numberOfBytes, PAGE_EXECUTE_READ, &sourceMemoryProtection ); 
-		result &= VirtualProtect ( destination, numberOfBytes, PAGE_EXECUTE_READWRITE, &destinationMemoryProtection ); 
+		result |= VirtualProtect ( source, numberOfBytes, PAGE_EXECUTE_READ, &sourceMemoryProtection ); 
+		result |= VirtualProtect ( destination, numberOfBytes, PAGE_EXECUTE_READWRITE, &destinationMemoryProtection ); 
 		memcpy (destination, source, numberOfBytes);		
-		result &= VirtualProtect ( source, numberOfBytes, sourceMemoryProtection, NULL ); 
-		result &= VirtualProtect ( destination, numberOfBytes, destinationMemoryProtection, NULL ); 
-		if ( result != S_OK)
-			throw std::exception("Byte copy failed");
-		return S_OK;		
+		result |= VirtualProtect ( source, numberOfBytes, sourceMemoryProtection, NULL ); 
+		result |= VirtualProtect ( destination, numberOfBytes, destinationMemoryProtection, NULL ); 
+		//if ( result != S_OK)
+			//throw std::exception("Byte copy failed");
+		//return S_OK;		
+		return result;
 	}
 
 	
