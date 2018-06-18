@@ -64,9 +64,10 @@ public:
 		memcpy (self.newBytes, & (tempBuffer [0]), 6);
 
 		DWORD jumpSize = ( (DWORD) newFunction - (DWORD) oldFunction - 5 ); 
-		CopyBytes (self.newBytes, &jumpSize, 4);
+		//CopyBytes (self.newBytes, &jumpSize, 4);
+		memcpy(self.newBytes, &jumpSize, 4);
 
-		CopyBytes(self.oldBytes, oldFunction, 6);
+		memcpy(self.oldBytes, oldFunction, 6);
 		CopyBytes (oldFunction, self.newBytes, 6);   
 
 		self.originalFunction = (T) oldFunction;
@@ -115,30 +116,42 @@ private:
 	{		
 
 #		//ifdef _DEBUG
-		std::string debugString = "Called Function CreateHook:\n";
+		std::string debugString = "Called Function CopyBytes:\n";
 		debugString += "\t void* destination:\t";
 		debugString += std::to_string((unsigned int)destination);
 		debugString += "\n";
 		debugString += "\t void* source:\t";
 		debugString += std::to_string((unsigned int)source);
 		debugString += "\n";
-		debugString += "\t void* numberOfBytes:\t";
+		debugString += "\t int numberOfBytes:\t";
 		debugString += std::to_string(numberOfBytes) + "\n";
 
 		Logger::Instance()->Log(debugString);
 		//#endif
 
-		DWORD destinationMemoryProtection = 0;
-		DWORD sourceMemoryProtection = 0;
+		DWORD destinationMemoryProtection;
+		DWORD sourceMemoryProtection;
 		int result = S_OK;
-		result |= VirtualProtect ( source, numberOfBytes, PAGE_EXECUTE_READ, &sourceMemoryProtection ); 
-		result |= VirtualProtect ( destination, numberOfBytes, PAGE_EXECUTE_READWRITE, &destinationMemoryProtection ); 
-		memcpy (destination, source, numberOfBytes);		
-		result |= VirtualProtect ( source, numberOfBytes, sourceMemoryProtection, NULL ); 
-		result |= VirtualProtect ( destination, numberOfBytes, destinationMemoryProtection, NULL ); 
+
+		Logger::Instance()->Log("before calling virtualprotect\n");
+		//result += VirtualProtect ( source, numberOfBytes, PAGE_EXECUTE_READ, &sourceMemoryProtection ); 
+		debugString = "Changing protection to source: ";
+		debugString += std::to_string(result);
+		Logger::Instance()->Log(debugString);
+		result += VirtualProtect ( destination, numberOfBytes, PAGE_EXECUTE_READWRITE, &destinationMemoryProtection );
+		debugString = "Changing protection to destination: ";
+		debugString += std::to_string(result);
+		Logger::Instance()->Log(debugString);
+		memcpy (destination, source, numberOfBytes);	
+
+		Logger::Instance()->Log("bytes copied");
+		//result += VirtualProtect ( source, numberOfBytes, sourceMemoryProtection, NULL ); 
+		DWORD newMemoryProtection;
+		result += VirtualProtect ( destination, numberOfBytes, destinationMemoryProtection, &newMemoryProtection ); 
 		//if ( result != S_OK)
 			//throw std::exception("Byte copy failed");
 		//return S_OK;		
+		Logger::Instance()->Log("returning");
 		return result;
 	}
 

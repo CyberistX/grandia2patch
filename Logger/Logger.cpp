@@ -24,8 +24,11 @@ Logger* Logger::Instance()
 
 int Logger::Log(std::string debugString)
 {
-	if ( this -> logFile )
-		this -> logFile << debugString << "\n";
+	if (this->logFile.is_open())
+	{
+		this->logFile << debugString << "\n";
+		this->logFile.flush();
+	}
 	else throw std::exception ( "Log file is not set" );
 	return 0;
 }
@@ -36,7 +39,8 @@ int Logger::SetLogFile(std::string logFilePath)
 	this -> logFile.open(logFilePath);
 	if ( !this -> logFile.is_open() )
 		throw std::exception("Couldn't open log file");
-	this->Log ("Starting log");
+	this->logFile << "Logging Started\n";
+	this->logFile.flush();
 	return 0;
 }
 
