@@ -18,8 +18,8 @@ public:
 	HookDescriptor<T>() {};
 	~HookDescriptor<T>()
 	{
-		delete[] oldBytes;
-		delete[] newBytes;
+		//delete[] oldBytes;
+		//delete[] newBytes;
 		
 	};
 
@@ -65,14 +65,79 @@ public:
 
 		DWORD jumpSize = ( (DWORD) newFunction - (DWORD) oldFunction - 5 ); 
 		//CopyBytes (self.newBytes, &jumpSize, 4);
-		memcpy(self.newBytes, &jumpSize, 4);
-
+		memcpy(&(self.newBytes[1]), &jumpSize, 4);
 		memcpy(self.oldBytes, oldFunction, 6);
+
 		CopyBytes (oldFunction, self.newBytes, 6);   
 
 		self.originalFunction = (T) oldFunction;
 		self.proxyFunction = (T) newFunction;
 		self.isSet = true;
+
+		Logger::Instance()->Log("returning from createhook");
+
+
+		Logger::Instance()->Log("returning");
+		debugString = "newbytes:\t ";
+		debugString += std::to_string(self.newBytes[0]);
+		debugString += " ";
+		debugString += std::to_string(self.newBytes[1]);
+		debugString += " ";
+		debugString += std::to_string(self.newBytes[2]);
+		debugString += " ";
+		debugString += std::to_string(self.newBytes[3]);
+		debugString += " ";
+		debugString += std::to_string(self.newBytes[4]);
+		debugString += " ";
+		debugString += std::to_string(self.newBytes[5]);
+		debugString += " ";
+		Logger::Instance()->Log(debugString);
+		unsigned char* funcbytes = (unsigned char*)oldFunction;
+		debugString = "function bytes:\t ";
+		debugString += std::to_string(funcbytes[0]);
+		debugString += " ";
+		debugString += std::to_string(funcbytes[1]);
+		debugString += " ";
+		debugString += std::to_string(funcbytes[2]);
+		debugString += " ";
+		debugString += std::to_string(funcbytes[3]);
+		debugString += " ";
+		debugString += std::to_string(funcbytes[4]);
+		debugString += " ";
+		debugString += std::to_string(funcbytes[5]);
+		debugString += " ";
+		Logger::Instance()->Log(debugString);
+		debugString = "oldbytes:\t ";
+		debugString += std::to_string(self.oldBytes[0]);
+		debugString += " ";
+		debugString += std::to_string(self.oldBytes[1]);
+		debugString += " ";
+		debugString += std::to_string(self.oldBytes[2]);
+		debugString += " ";
+		debugString += std::to_string(self.oldBytes[3]);
+		debugString += " ";
+		debugString += std::to_string(self.oldBytes[4]);
+		debugString += " ";
+		debugString += std::to_string(self.oldBytes[5]);
+		debugString += " ";
+		Logger::Instance()->Log(debugString);
+
+		unsigned char* newfuncbytes = (unsigned char*)newFunction;
+		debugString = "new function bytes:\t ";
+		debugString += std::to_string(newfuncbytes[0]);
+		debugString += " ";
+		debugString += std::to_string(newfuncbytes[1]);
+		debugString += " ";
+		debugString += std::to_string(newfuncbytes[2]);
+		debugString += " ";
+		debugString += std::to_string(newfuncbytes[3]);
+		debugString += " ";
+		debugString += std::to_string(newfuncbytes[4]);
+		debugString += " ";
+		debugString += std::to_string(newfuncbytes[5]);
+		debugString += " ";
+		Logger::Instance()->Log(debugString);
+
 		return self;
 
 	}
@@ -91,7 +156,7 @@ public:
 	static HookDescriptor<T> CreateComHook( IUnknown * comObject, int vtableIndex, void * newFunction )
 	{
 		void * oldFunction = GetFunctionPointer (comObject, vtableIndex);
-		return CreateHook (oldFunction, newFunction);		
+		return CreateHook<T> (oldFunction, newFunction);		
 	}
 	
 	HRESULT SetHook ()
@@ -146,12 +211,11 @@ private:
 
 		Logger::Instance()->Log("bytes copied");
 		//result += VirtualProtect ( source, numberOfBytes, sourceMemoryProtection, NULL ); 
-		DWORD newMemoryProtection;
-		result += VirtualProtect ( destination, numberOfBytes, destinationMemoryProtection, &newMemoryProtection ); 
+		DWORD oldMemoryProtection;
+		result += VirtualProtect ( destination, numberOfBytes, destinationMemoryProtection, &oldMemoryProtection ); 
 		//if ( result != S_OK)
 			//throw std::exception("Byte copy failed");
 		//return S_OK;		
-		Logger::Instance()->Log("returning");
 		return result;
 	}
 
