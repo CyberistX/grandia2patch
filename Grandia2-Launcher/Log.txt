@@ -1,0 +1,47 @@
+Logging Started
+Handle User32: 1998454784
+
+Handle CreateWindowEx: 1998641264
+
+Called Function CreateHook:
+	 void* oldFunction:	1998641264
+	 void* newFunction:	1467224849
+
+Called Function CopyBytes:
+	 void* destination:	1998641264
+	 void* source:	12040376
+	 int numberOfBytes:	6
+
+before calling virtualprotect
+
+Changing protection to source: 0
+Changing protection to destination: 1
+bytes copied
+returning from createhook
+returning
+newbytes:	 233 156 58 83 224 195 
+function bytes:	 233 156 58 83 224 195 
+oldbytes:	 139 255 85 139 236 51 
+new function bytes:	 233 90 145 0 0 233 
+createwindowex hook inited
+Called Function CreateHook:
+	 void* oldFunction:	1946261680
+	 void* newFunction:	1467225709
+
+Called Function CopyBytes:
+	 void* destination:	1946261680
+	 void* source:	12040488
+	 int numberOfBytes:	6
+
+before calling virtualprotect
+
+Changing protection to source: 0
+Changing protection to destination: 1
+bytes copied
+returning from createhook
+returning
+newbytes:	 233 184 125 114 227 195 
+function bytes:	 233 184 125 114 227 195 
+oldbytes:	 139 255 85 139 236 81 
+new function bytes:	 233 238 142 0 0 233 
+ddrawcreate hook inited
