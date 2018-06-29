@@ -4,19 +4,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Grandia2-Dll", "Grandia2-Dll\Grandia2-Dll.vcxproj", "{0862E520-3213-4A8E-A62E-680319C3CECD}"
-	ProjectSection(ProjectDependencies) = postProject
-		{70BDA7A1-A1A0-4144-84FF-679DAAC147D3} = {70BDA7A1-A1A0-4144-84FF-679DAAC147D3}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Grandia2-Launcher", "Grandia2-Launcher\Grandia2-Launcher.vcxproj", "{DC4AF9CA-E24D-41CB-8032-4B434A9D654F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{9AA5F90D-8633-4035-B90C-C7034DA42779} = {9AA5F90D-8633-4035-B90C-C7034DA42779}
-		{70BDA7A1-A1A0-4144-84FF-679DAAC147D3} = {70BDA7A1-A1A0-4144-84FF-679DAAC147D3}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Logger", "Logger\Logger.vcxproj", "{70BDA7A1-A1A0-4144-84FF-679DAAC147D3}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PatchLib", "PatchLib\PatchLib.vcxproj", "{9AA5F90D-8633-4035-B90C-C7034DA42779}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,22 +31,6 @@ Global
 		{DC4AF9CA-E24D-41CB-8032-4B434A9D654F}.Release|x64.Build.0 = Release|x64
 		{DC4AF9CA-E24D-41CB-8032-4B434A9D654F}.Release|x86.ActiveCfg = Release|Win32
 		{DC4AF9CA-E24D-41CB-8032-4B434A9D654F}.Release|x86.Build.0 = Release|Win32
-		{70BDA7A1-A1A0-4144-84FF-679DAAC147D3}.Debug|x64.ActiveCfg = Debug|x64
-		{70BDA7A1-A1A0-4144-84FF-679DAAC147D3}.Debug|x64.Build.0 = Debug|x64
-		{70BDA7A1-A1A0-4144-84FF-679DAAC147D3}.Debug|x86.ActiveCfg = Debug|Win32
-		{70BDA7A1-A1A0-4144-84FF-679DAAC147D3}.Debug|x86.Build.0 = Debug|Win32
-		{70BDA7A1-A1A0-4144-84FF-679DAAC147D3}.Release|x64.ActiveCfg = Release|x64
-		{70BDA7A1-A1A0-4144-84FF-679DAAC147D3}.Release|x64.Build.0 = Release|x64
-		{70BDA7A1-A1A0-4144-84FF-679DAAC147D3}.Release|x86.ActiveCfg = Release|Win32
-		{70BDA7A1-A1A0-4144-84FF-679DAAC147D3}.Release|x86.Build.0 = Release|Win32
-		{9AA5F90D-8633-4035-B90C-C7034DA42779}.Debug|x64.ActiveCfg = Debug|x64
-		{9AA5F90D-8633-4035-B90C-C7034DA42779}.Debug|x64.Build.0 = Debug|x64
-		{9AA5F90D-8633-4035-B90C-C7034DA42779}.Debug|x86.ActiveCfg = Debug|Win32
-		{9AA5F90D-8633-4035-B90C-C7034DA42779}.Debug|x86.Build.0 = Debug|Win32
-		{9AA5F90D-8633-4035-B90C-C7034DA42779}.Release|x64.ActiveCfg = Release|x64
-		{9AA5F90D-8633-4035-B90C-C7034DA42779}.Release|x64.Build.0 = Release|x64
-		{9AA5F90D-8633-4035-B90C-C7034DA42779}.Release|x86.ActiveCfg = Release|Win32
-		{9AA5F90D-8633-4035-B90C-C7034DA42779}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
