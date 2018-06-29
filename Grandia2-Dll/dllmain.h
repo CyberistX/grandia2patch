@@ -14,3 +14,6 @@ DWORD _stdcall ProxyGetLogicalDrives();
 
 HRESULT InitHooks();
 void PatchNoCD();
+void ResolutionPatch();
+void WriteByte(void * destination, unsigned char * byte);
+void WriteWord(void * destination, unsigned short * word);

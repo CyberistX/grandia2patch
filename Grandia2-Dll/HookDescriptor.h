@@ -27,7 +27,7 @@ public:
 	T originalFunction;
 	T proxyFunction;
 	DWORD memoryProtection;
-	bool isSet;
+	bool isSet = false;
 	unsigned char * oldBytes;
 	unsigned char * newBytes;
 	
